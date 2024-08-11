@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Route Map</title>
+    <style>
+        /* Set the size of the map container */
+        #map {
+            height: 500px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Custom Route on Google Maps</h1>
+    <div id="map"></div>
+
+    <!-- Load the Google Maps JavaScript API -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
+    
+    <script>
+        // Coordinates of your route
+        const customRouteCoordinates = [
+            { lat: 37.772, lng: -122.214 },
+            { lat: 21.291, lng: -157.821 },
+            { lat: -18.142, lng: 178.431 },
+            { lat: -27.467, lng: 153.027 },
+            // ... add more coordinates here to make the route more precise
+        ];
+
+        // Your map
+        function initMap() {
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 3,
+                center: { lat: 0, lng: -180 }, // Initial center of the map
+                mapTypeId: "terrain", // Map type
+            });
+
+            // Set up your polyline
+            const routePath = new google.maps.Polyline({
+                path: customRouteCoordinates,
+                geodesic: true,
+                strokeColor: "#FF0000", // Line color
+                strokeOpacity: 1.0, // Line opacity
+                strokeWeight: 2, // Line thickness
+            });
+
+            // Display the polyline on the map
+            routePath.setMap(map);
+        }
+    </script>
+</body>
+</html>
