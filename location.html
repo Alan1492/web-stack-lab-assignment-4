@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Route Map</title>
+    <title>Route between Locations</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
     <style>
-        /* Set the size of the map container */
         #map {
             height: 500px;
             width: 100%;
@@ -13,42 +14,41 @@
     </style>
 </head>
 <body>
-    <h1>Custom Route on Google Maps</h1>
+    <h1>Route between Two Locations</h1>
     <div id="map"></div>
 
-    <!-- Load the Google Maps JavaScript API -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
-    
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
     <script>
-        // Coordinates of your route
-        const customRouteCoordinates = [
-            { lat: 37.772, lng: -122.214 },
-            { lat: 21.291, lng: -157.821 },
-            { lat: -18.142, lng: 178.431 },
-            { lat: -27.467, lng: 153.027 },
-            // ... add more coordinates here to make the route more precise
-        ];
-
-        // Your map
         function initMap() {
-            const map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 3,
-                center: { lat: 0, lng: -180 }, // Initial center of the map
-                mapTypeId: "terrain", // Map type
-            });
+            // Coordinates for the Eiffel Tower and the Louvre Museum
+            const startLocation = [48.8584, 2.2945]; // Eiffel Tower
+            const endLocation = [48.8606, 2.3376]; // Louvre Museum
 
-            // Set up your polyline
-            const routePath = new google.maps.Polyline({
-                path: customRouteCoordinates,
-                geodesic: true,
-                strokeColor: "#FF0000", // Line color
-                strokeOpacity: 1.0, // Line opacity
-                strokeWeight: 2, // Line thickness
-            });
+            // Initialize the map
+            const map = L.map('map').setView(startLocation, 14); // Center map on the start location
 
-            // Display the polyline on the map
-            routePath.setMap(map);
+            // Add OpenStreetMap tile layer
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            // Add routing control
+            L.Routing.control({
+                waypoints: [
+                    L.latLng(startLocation),
+                    L.latLng(endLocation)
+                ],
+                routeWhileDragging: true,
+                geocoder: L.Control.Geocoder.nominatim() // Optional: Adds address search functionality
+            }).addTo(map);
         }
+
+        // Call initMap once the page has fully loaded
+        window.onload = initMap;
     </script>
 </body>
 </html>
