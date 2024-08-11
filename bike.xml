@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="bike.xsl"?>
 <!DOCTYPE bikeRental SYSTEM "bikerrental.dtd">
 <bikeRental xmlns="http://www.bikerental.com"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation="http://www.bikerental.com bikerrental.xsd">
+
     <bike id="B1" type="mountain">
         <name>Mountain Bike</name>
         <rentalDate>2024-08-10</rentalDate>
